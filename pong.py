@@ -52,7 +52,15 @@ sb.color("white")
 sb.penup()
 sb.hideturtle()
 sb.setposition(0, 260)
-sb.write("Player One: 0            Player Two: 0", align="center", font=("Comic Sans MS", 22, "normal"))
+sb.write("0 : 0", align="center", font=("Comic Sans MS", 24, "normal"))
+
+# to show game over
+go = turtle.Turtle()
+go.speed(0)
+go.color("white")
+go.penup()
+go.hideturtle()
+go.setposition(0, 230)
 
 # set up
 paddle_l = Paddle(-350, 0)
@@ -60,7 +68,6 @@ paddle_r = Paddle(350, 0)
 ball = Ball()
 score_l = 0
 score_r = 0
-
 
 # keyboard binding
 wn.listen()
@@ -95,17 +102,19 @@ if __name__ == "__main__":
             elif ball.xcor() < -390:
                 score_r += 1
                 sb.clear()
-                sb.write(f"Player One: {score_l}            Player Two: {score_r}", align="center", font=("Comic Sans MS", 22, "normal"))
+                sb.write(f"{score_l} : {score_r}", align="center", font=("Comic Sans MS", 24, "normal"))
                 ball.setposition(0, 0)
                 ball.dx *= -1
+                ball.dy *= -1
 
             # right
             elif ball.xcor() > 390:
                 score_l += 1
                 sb.clear()
-                sb.write(f"Player One: {score_l}            Player Two: {score_r}", align="center", font=("Comic Sans MS", 22, "normal"))
+                sb.write(f"{score_l} : {score_r}", align="center", font=("Comic Sans MS", 24, "normal"))
                 ball.setposition(0, 0)
                 ball.dx *= -1
+                ball.dy *= -1
 
             # left paddle
             elif paddle_l.ycor() - 50 <= ball.ycor() <= paddle_l.ycor() + 50 and -350 < ball.xcor() <= -330:
@@ -120,7 +129,6 @@ if __name__ == "__main__":
                 os.system("afplay bounce.wav&")
 
         if score_l == 3 or score_r == 3:
-            sb.clear()
+            go.write("Game Over", align="center", font=("Comic Sans MS", 24, "normal"))
             score_l += 10   # to avoid repeating clear and write
             score_r += 10
-            sb.write("Game Over", align="center", font=("Comic Sans MS", 22, "normal"))
