@@ -31,8 +31,8 @@ class Ball(turtle.Turtle):
         self.color("white")
         self.penup()
 
-        self.dx = 10
-        self.dy = 10
+        self.dx = 3
+        self.dy = 3
 
     def move(self):
         self.setposition(self.xcor() - self.dx, self.ycor() - self.dy)
@@ -83,11 +83,13 @@ if __name__ == "__main__":
             if ball.ycor() > 290:
                 ball.sety(290)
                 ball.dy *= -1
+                os.system("afplay bounce.wav&")  # "&" at the end to prevent delay
 
             # bottom
             elif ball.ycor() < -290:
                 ball.sety(-290)
                 ball.dy *= -1
+                os.system("afplay bounce.wav&")
 
             # left
             elif ball.xcor() < -390:
@@ -109,15 +111,16 @@ if __name__ == "__main__":
             elif paddle_l.ycor() - 50 <= ball.ycor() <= paddle_l.ycor() + 50 and -350 < ball.xcor() <= -330:
                 ball.setx(-330)
                 ball.dx *= -1
+                os.system("afplay bounce.wav&")
 
             # right paddle
             elif paddle_r.ycor() - 50 <= ball.ycor() <= paddle_r.ycor() + 50 and 350 > ball.xcor() >= 330:
                 ball.setx(330)
                 ball.dx *= -1
+                os.system("afplay bounce.wav&")
 
         if score_l == 3 or score_r == 3:
             sb.clear()
             score_l += 10   # to avoid repeating clear and write
             score_r += 10
             sb.write("Game Over", align="center", font=("Comic Sans MS", 22, "normal"))
-            print("over")
