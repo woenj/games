@@ -27,12 +27,12 @@ class Ball(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
         self.speed(0)
-        self.shape("square")
+        self.shape("circle")
         self.color("white")
         self.penup()
 
-        self.dx = 3
-        self.dy = 3
+        self.dx = 10
+        self.dy = 10
 
     def move(self):
         self.setposition(self.xcor() - self.dx, self.ycor() - self.dy)
@@ -40,10 +40,19 @@ class Ball(turtle.Turtle):
 
 # game window
 wn = turtle.Screen()
-wn.title("jPong")
+wn.title(" Pong")
 wn._bgcolor("SeaGreen")
 wn.setup(800, 600)
 wn.tracer
+
+# scoreboard
+sb = turtle.Turtle()
+sb.speed(0)
+sb.color("white")
+sb.penup()
+sb.hideturtle()
+sb.setposition(0, 260)
+sb.write("Player One: 0            Player Two: 0", align="center", font=("Comic Sans MS", 22, "normal"))
 
 # set up
 paddle_l = Paddle(-350, 0)
@@ -51,6 +60,7 @@ paddle_r = Paddle(350, 0)
 ball = Ball()
 score_l = 0
 score_r = 0
+
 
 # keyboard binding
 wn.listen()
@@ -63,37 +73,51 @@ if __name__ == "__main__":
     while True:
         wn.update()
 
-        # move the ball
-        ball.move()
-        # print(ball.position())
-        # boarder/hit checking
+        while score_l < 3 and score_r < 3:
+            # move the ball
+            ball.move()
 
-        # top
-        if ball.ycor() > 290:
-            ball.sety(290)
-            ball.dy *= -1
+            # boarder/hit checking
 
-        # bottom
-        elif ball.ycor() < -290:
-            ball.sety(-290)
-            ball.dy *= -1
+            # top
+            if ball.ycor() > 290:
+                ball.sety(290)
+                ball.dy *= -1
 
-        # left
-        elif ball.xcor() < -390:
-            score_r += 1
-            ball.setposition(0, 0)
-            ball.dx *= -1
+            # bottom
+            elif ball.ycor() < -290:
+                ball.sety(-290)
+                ball.dy *= -1
 
-        # right
-        elif ball.xcor() > 390:
-            score_l += 1
-            ball.setposition(0, 0)
-            ball.dx *= -1
+            # left
+            elif ball.xcor() < -390:
+                score_r += 1
+                sb.clear()
+                sb.write(f"Player One: {score_l}            Player Two: {score_r}", align="center", font=("Comic Sans MS", 22, "normal"))
+                ball.setposition(0, 0)
+                ball.dx *= -1
 
-        # left paddle
-        elif ball.xcor() == -330 and paddle_l.ycor() - 60 <= ball.ycor() <= paddle_l.ycor() + 60:   # ball.xcor() == -330 rather than < to avoid the condition passing after ball has passed the paddle and cause glitch/shutter
-            ball.dx *= -1
+            # right
+            elif ball.xcor() > 390:
+                score_l += 1
+                sb.clear()
+                sb.write(f"Player One: {score_l}            Player Two: {score_r}", align="center", font=("Comic Sans MS", 22, "normal"))
+                ball.setposition(0, 0)
+                ball.dx *= -1
 
-        # right paddle
-        elif ball.xcor() == 330 and paddle_r.ycor() - 60 <= ball.ycor() <= paddle_r.ycor() + 60:
-            ball.dx *= -1
+            # left paddle
+            elif paddle_l.ycor() - 50 <= ball.ycor() <= paddle_l.ycor() + 50 and -350 < ball.xcor() <= -330:
+                ball.setx(-330)
+                ball.dx *= -1
+
+            # right paddle
+            elif paddle_r.ycor() - 50 <= ball.ycor() <= paddle_r.ycor() + 50 and 350 > ball.xcor() >= 330:
+                ball.setx(330)
+                ball.dx *= -1
+
+        if score_l == 3 or score_r == 3:
+            sb.clear()
+            score_l += 10   # to avoid repeating clear and write
+            score_r += 10
+            sb.write("Game Over", align="center", font=("Comic Sans MS", 22, "normal"))
+            print("over")
