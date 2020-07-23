@@ -35,7 +35,7 @@ class Ball:
 # game window
 wn = turtle.Screen()
 wn.title("jPong")
-wn._bgcolor("DarkGreen")
+wn._bgcolor("SeaGreen")
 wn.setup(800, 600)
 wn.tracer
 
