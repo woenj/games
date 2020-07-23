@@ -44,6 +44,13 @@ paddle_l = Paddle(-350, 0)
 paddle_r = Paddle(350, 0)
 ball = Ball()
 
+# keyboard binding
+wn.listen()
+wn.onkeypress(paddle_l.up, "w")
+wn.onkeypress(paddle_l.down, "s")
+wn.onkeypress(paddle_r.up, "Up")
+wn.onkeypress(paddle_r.down, "Down")
+
 if __name__ == "__main__":
     while True:
         wn.update()
