@@ -49,6 +49,8 @@ wn.tracer
 paddle_l = Paddle(-350, 0)
 paddle_r = Paddle(350, 0)
 ball = Ball()
+score_l = 0
+score_r = 0
 
 # keyboard binding
 wn.listen()
@@ -64,20 +66,34 @@ if __name__ == "__main__":
         # move the ball
         ball.move()
 
-        # boarder checking
+        # boarder/hit checking
+
         # top
         if ball.ycor() > 290:
             ball.sety(290)
             ball.dy *= -1
+
         # bottom
         elif ball.ycor() < -290:
             ball.sety(-290)
             ball.dy *= -1
+
         # left
         elif ball.xcor() < -390:
+            score_r += 1
             ball.setposition(0, 0)
             ball.dx *= -1
+
         # right
         elif ball.xcor() > 390:
+            score_l += 1
             ball.setposition(0, 0)
+            ball.dx *= -1
+
+        # left paddle
+        elif ball.xcor() - 10 < -340 and paddle_l.ycor() - 50 < ball.ycor() < paddle_l.ycor() + 50:
+            ball.dx *= -1
+            
+        # right paddle
+        elif ball.xcor() + 10 > 340 and paddle_r.ycor() - 50 < ball.ycor() < paddle_r.ycor() + 50:
             ball.dx *= -1
