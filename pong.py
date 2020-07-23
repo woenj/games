@@ -31,8 +31,8 @@ class Ball(turtle.Turtle):
         self.color("white")
         self.penup()
 
-        self.dx = 2
-        self.dy = 2
+        self.dx = 3
+        self.dy = 3
 
     def move(self):
         self.setposition(self.xcor() - self.dx, self.ycor() - self.dy)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
         # move the ball
         ball.move()
-
+        # print(ball.position())
         # boarder/hit checking
 
         # top
@@ -91,9 +91,9 @@ if __name__ == "__main__":
             ball.dx *= -1
 
         # left paddle
-        elif ball.xcor() - 10 < -340 and paddle_l.ycor() - 50 < ball.ycor() < paddle_l.ycor() + 50:
+        elif ball.xcor() == -330 and paddle_l.ycor() - 60 <= ball.ycor() <= paddle_l.ycor() + 60:   # ball.xcor() == -330 rather than < to avoid the condition passing after ball has passed the paddle and cause glitch/shutter
             ball.dx *= -1
-            
+
         # right paddle
-        elif ball.xcor() + 10 > 340 and paddle_r.ycor() - 50 < ball.ycor() < paddle_r.ycor() + 50:
+        elif ball.xcor() == 330 and paddle_r.ycor() - 60 <= ball.ycor() <= paddle_r.ycor() + 60:
             ball.dx *= -1
